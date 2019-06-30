@@ -1,6 +1,5 @@
 using Zapdate.Infrastructure.Auth;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using Microsoft.IdentityModel.Tokens;
@@ -8,13 +7,14 @@ using Moq;
 using Zapdate.Infrastructure.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace Zapdate.Infrastructure.Tests.Auth
 {
     public class JwtFactoryUnitTests
     {
         [Fact]
-        public async void GenerateEncodedToken_GivenValidInputs_ReturnsExpectedTokenData()
+        public async Task GenerateEncodedToken_GivenValidInputs_ReturnsExpectedTokenData()
         {
             // arrange
             var token = Guid.NewGuid().ToString();

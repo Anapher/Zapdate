@@ -2,18 +2,18 @@
 
 namespace Zapdate.Core.Domain.Entities
 {
-    public class RsaKey : BaseEntity
+    public class AsymmetricKey : BaseEntity
     {
-        public RsaKey(int projectId, string publicKey, string privateKey, bool isEncrypted)
+        public AsymmetricKey(string publicKey, string? privateKey = null, bool isEncrypted = false, int projectId = 0)
         {
-            ProjectId = projectId;
             PublicKey = publicKey;
             PrivateKey = privateKey;
             IsPrivateKeyEncrypted = isEncrypted;
+            ProjectId = projectId;
         }
 
 #pragma warning disable CS8618 // Constructor for mapping
-        public RsaKey()
+        public AsymmetricKey()
         {
         }
 #pragma warning restore CS8618

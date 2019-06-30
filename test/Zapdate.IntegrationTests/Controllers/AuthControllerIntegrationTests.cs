@@ -2,13 +2,12 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Zapdate;
 using Zapdate.Models.Request;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace Web.Api.IntegrationTests.Controllers
+namespace Zapdate.IntegrationTests.Controllers
 {
     public class AuthControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {

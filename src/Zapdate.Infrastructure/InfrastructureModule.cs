@@ -2,6 +2,7 @@ using Autofac;
 using Zapdate.Core.Interfaces.Gateways.Repositories;
 using Zapdate.Core.Interfaces.Services;
 using Zapdate.Infrastructure.Auth;
+using Zapdate.Infrastructure.Cryptography;
 using Zapdate.Infrastructure.Identity.Repositories;
 using Zapdate.Infrastructure.Interfaces;
 
@@ -16,6 +17,9 @@ namespace Zapdate.Infrastructure
             builder.RegisterType<JwtHandler>().As<IJwtHandler>().SingleInstance();
             builder.RegisterType<TokenFactory>().As<ITokenFactory>().SingleInstance();
             builder.RegisterType<JwtValidator>().As<IJwtValidator>().SingleInstance();
+
+            builder.RegisterType<AsymmetricKeyFactory>().As<IAsymmetricKeyParametersFactory>().SingleInstance();
+            builder.RegisterType<SymmetricEncryption>().As<ISymmetricEncryption>().SingleInstance();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IRepository<>)).AsImplementedInterfaces();
         }

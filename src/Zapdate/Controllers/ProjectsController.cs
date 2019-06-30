@@ -6,8 +6,11 @@ using Zapdate.Infrastructure.Data;
 using Zapdate.Models.Response;
 using Zapdate.Models.ObjectQueries;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Zapdate.Models.Request;
+using Zapdate.Core.Interfaces.UseCases;
+using Zapdate.Core.Dto.UseCaseRequests;
+using Zapdate.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace Zapdate.Controllers
 {
@@ -24,9 +27,17 @@ namespace Zapdate.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateProject(CreateProjectRequestDto dto)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<CreateProjectResponseDto>> CreateProject(CreateProjectRequestDto dto, [FromServices] ICreateProjectUseCase useCase)
         {
-            throw new NotImplementedException();
+            var result = await useCase.Handle(new CreateProjectRequest(dto.ProjectName, dto.RsaKeyStorage, dto.RsaKeyPassword));
+            if (useCase.HasError)
+            {
+                return useCase.ToActionResult();
+            }
+
+            return new CreateProjectResponseDto(result!.ProjectId, result.AsymmetricKey);
         }
     }
 }

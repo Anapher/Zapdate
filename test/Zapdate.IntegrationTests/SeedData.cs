@@ -3,7 +3,7 @@ using Zapdate.Infrastructure.Data;
 using Zapdate.Infrastructure.Identity;
 using System;
 
-namespace Web.Api.IntegrationTests
+namespace Zapdate.IntegrationTests
 {
     public static class SeedData
     {

@@ -1,5 +1,4 @@
 using System;
-using Zapdate;
 using Zapdate.Infrastructure.Data;
 using Zapdate.Infrastructure.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Web.Api.IntegrationTests
+namespace Zapdate.IntegrationTests
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<Startup>
     {

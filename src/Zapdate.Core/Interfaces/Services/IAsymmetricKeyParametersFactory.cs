@@ -2,8 +2,8 @@
 
 namespace Zapdate.Core.Interfaces.Services
 {
-    public interface IAsymmetricKeyFactory
+    public interface IAsymmetricKeyParametersFactory
     {
-        AsymmetricKey Create();
+        AsymmetricKeyParameters Create();
     }
 }

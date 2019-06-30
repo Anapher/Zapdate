@@ -5,13 +5,14 @@ using Zapdate.Core.Interfaces.Services;
 using Zapdate.Core.UseCases;
 using Moq;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace Zapdate.Core.Tests.UseCases
 {
     public class LoginUseCaseTests
     {
         [Fact]
-        public async void Handle_GivenValidCredentials_ShouldSucceed()
+        public async Task Handle_GivenValidCredentials_ShouldSucceed()
         {
             // arrange
             var mockUserRepository = new Mock<IUserRepository>();
@@ -34,7 +35,7 @@ namespace Zapdate.Core.Tests.UseCases
         }
 
         [Fact]
-        public async void Handle_GivenIncompleteCredentials_ShouldFail()
+        public async Task Handle_GivenIncompleteCredentials_ShouldFail()
         {
             // arrange
             var mockUserRepository = new Mock<IUserRepository>();
@@ -58,7 +59,7 @@ namespace Zapdate.Core.Tests.UseCases
         }
 
         [Fact]
-        public async void Handle_GivenUnknownCredentials_ShouldFail()
+        public async Task Handle_GivenUnknownCredentials_ShouldFail()
         {
             // arrange
             var mockUserRepository = new Mock<IUserRepository>();
@@ -82,7 +83,7 @@ namespace Zapdate.Core.Tests.UseCases
         }
 
         [Fact]
-        public async void Handle_GivenInvalidPassword_ShouldFail()
+        public async Task Handle_GivenInvalidPassword_ShouldFail()
         {
             // arrange
             var mockUserRepository = new Mock<IUserRepository>();

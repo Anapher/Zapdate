@@ -1,8 +1,8 @@
 ﻿namespace Zapdate.Core.Dto.Services
 {
-    public struct AsymmetricKey
+    public struct AsymmetricKeyParameters
     {
-        public AsymmetricKey(string publicKey, string privateKey)
+        public AsymmetricKeyParameters(string publicKey, string privateKey)
         {
             PublicKey = publicKey;
             PrivateKey = privateKey;

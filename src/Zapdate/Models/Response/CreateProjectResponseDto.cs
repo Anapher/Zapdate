@@ -1,8 +1,8 @@
-﻿namespace Zapdate.Core.Dto.UseCaseResponses
+﻿namespace Zapdate.Models.Response
 {
-    public class CreateProjectResponse
+    public class CreateProjectResponseDto
     {
-        public CreateProjectResponse(int projectId, string? asymmetricKey = null)
+        public CreateProjectResponseDto(int projectId, string? asymmetricKey = null)
         {
             ProjectId = projectId;
             AsymmetricKey = asymmetricKey;

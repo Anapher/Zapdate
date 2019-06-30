@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Zapdate.Infrastructure.Shared
+namespace Zapdate.Infrastructure.Data
 {
     public abstract class EfRepository<T> : IRepository<T> where T : BaseEntity
     {

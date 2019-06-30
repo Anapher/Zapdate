@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Zapdate.Core.Dto.UseCaseRequests;
 using Zapdate.Models.Request;
 
 namespace Zapdate.Models.Validation
@@ -10,7 +11,7 @@ namespace Zapdate.Models.Validation
             RuleFor(x => x.ProjectName).NotEmpty();
             RuleFor(x => x.RsaKeyStorage).IsInEnum();
             RuleFor(x => x.ProjectName).MinimumLength(6).NotEmpty()
-                .When(x => x.RsaKeyStorage == RsaKeyStorage.ServerEncrypted);
+                .When(x => x.RsaKeyStorage == KeyStorage.ServerEncrypted);
         }
     }
 }

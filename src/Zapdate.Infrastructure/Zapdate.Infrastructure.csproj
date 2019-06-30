@@ -18,9 +18,5 @@
     <ProjectReference Include="..\Zapdate.Core\Zapdate.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Repositories\" />
-  </ItemGroup>
-
   <Import Project="../nullable.props" />
 </Project>

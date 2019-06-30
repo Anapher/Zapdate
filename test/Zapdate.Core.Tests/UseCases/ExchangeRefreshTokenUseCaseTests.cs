@@ -6,13 +6,14 @@ using Zapdate.Core.UseCases;
 using Moq;
 using System.Security.Claims;
 using Xunit;
+using System.Threading.Tasks;
 
 namespace Zapdate.Core.Tests.UseCases
 {
     public class ExchangeRefreshTokenUseCaseUnitTests
     {
         [Fact]
-        public async void Handle_GivenInvalidToken_ShouldFail()
+        public async Task Handle_GivenInvalidToken_ShouldFail()
         {
             // arrange
             var mockJwtTokenValidator = new Mock<IJwtValidator>();
@@ -28,7 +29,7 @@ namespace Zapdate.Core.Tests.UseCases
         }
 
         [Fact]
-        public async void Handle_GivenValidToken_ShouldSucceed()
+        public async Task Handle_GivenValidToken_ShouldSucceed()
         {
             // arrange
             var mockJwtTokenValidator = new Mock<IJwtValidator>();
