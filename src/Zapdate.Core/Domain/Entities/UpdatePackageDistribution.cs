@@ -2,16 +2,16 @@
 
 namespace Zapdate.Core.Domain.Entities
 {
-    public class UpdateChannel
+    public class UpdatePackageDistribution
     {
-        public UpdateChannel(int updatePackageId, string name)
+        public UpdatePackageDistribution(int updatePackageId, string name)
         {
             UpdatePackageId = updatePackageId;
             Name = name;
         }
 
 #pragma warning disable CS8618 // Constructor for mapping
-        public UpdateChannel()
+        public UpdatePackageDistribution()
         {
         }
 #pragma warning restore CS8618
@@ -21,6 +21,7 @@ namespace Zapdate.Core.Domain.Entities
 
         public DateTimeOffset? PublishDate { get; private set; }
         public bool IsRolledBack { get; private set; }
+        public bool IsEnforced { get; set; }
 
         public bool IsPublished => PublishDate != null;
         public bool IsDistributing => !IsRolledBack && DateTimeOffset.UtcNow > PublishDate;

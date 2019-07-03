@@ -8,7 +8,7 @@ namespace Zapdate.Infrastructure.Cryptography
 {
     public class AsymmetricKeyFactory : IAsymmetricKeyParametersFactory
     {
-        private static readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -25,6 +25,11 @@ namespace Zapdate.Infrastructure.Cryptography
 
                 return new AsymmetricKeyParameters(ToJson(publicKey), ToJson(privateKey));
             }
+        }
+
+        public static RSAParameters Deserialize(string key)
+        {
+            return JsonConvert.DeserializeObject<RSAParametersEx>(key);
         }
 
         private static string ToJson(RSAParametersEx parameters)

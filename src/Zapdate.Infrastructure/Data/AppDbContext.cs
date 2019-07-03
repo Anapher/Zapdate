@@ -16,6 +16,7 @@ namespace Zapdate.Infrastructure.Data
         }
 
         public DbSet<Project> Projects { get; set; }
+        public DbSet<UpdatePackage> UpdatePackages { get; set; }
 
         public override int SaveChanges()
         {

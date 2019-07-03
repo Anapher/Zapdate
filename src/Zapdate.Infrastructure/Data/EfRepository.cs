@@ -17,8 +17,9 @@ namespace Zapdate.Infrastructure.Data
             _appDbContext = appDbContext;
         }
 
-        public virtual Task<T> GetById(int id)
+        public virtual Task<T?> GetById(int id)
         {
+#pragma warning disable CS8619 // If not entity is found, then null is returned
             return _appDbContext.Set<T>().FindAsync(id);
         }
 

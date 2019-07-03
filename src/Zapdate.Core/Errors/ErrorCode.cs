@@ -6,7 +6,9 @@ namespace Zapdate.Core.Errors
         UserNotFound,
         InvalidPassword,
         InvalidToken,
-
+        InvalidKeyPassword,
+        UpdatePackageWithVersionAlreadyExists,
+        ProjectNotFound,
 
         Identity_DefaultError = 1500,
         Identity_ConcurrencyFailure,
@@ -28,5 +30,7 @@ namespace Zapdate.Core.Errors
         Identity_PasswordRequiresDigit,
         Identity_PasswordRequiresLower,
         Identity_PasswordRequiresUpper,
+
+        FileNotFound = 2000,
     }
 }

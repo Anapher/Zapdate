@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Zapdate.Core.Domain.Entities
+namespace Zapdate.Core.Domain
 {
     /// <summary>
     ///     A semantic version implementation.
@@ -200,7 +200,7 @@ namespace Zapdate.Core.Domain.Entities
         /// </param>
         /// <param name="strict">If set to <c>true</c> minor and patch version are required, else they default to 0.</param>
         /// <returns><c>False</c> when a invalid version string is passed, otherwise <c>true</c>.</returns>
-        public static bool TryParse(string version, out SemVersion semver, bool strict = false)
+        public static bool TryParse(string version, out SemVersion? semver, bool strict = false)
         {
             try
             {
@@ -220,11 +220,11 @@ namespace Zapdate.Core.Domain.Entities
         /// <param name="versionA">The first version.</param>
         /// <param name="versionB">The second version.</param>
         /// <returns>If versionA is equal to versionB <c>true</c>, else <c>false</c>.</returns>
-        public static bool Equals(SemVersion versionA, SemVersion versionB)
+        public static bool Equals(SemVersion? versionA, SemVersion? versionB)
         {
             if (ReferenceEquals(versionA, null))
                 return ReferenceEquals(versionB, null);
-            return versionA.Equals(versionB);
+            return versionA!.Equals(versionB);
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace Zapdate.Core.Domain.Entities
         /// <returns>
         ///     <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(obj, null))
                 return false;
@@ -389,7 +389,7 @@ namespace Zapdate.Core.Domain.Entities
             if (ReferenceEquals(this, obj))
                 return true;
 
-            var other = (SemVersion)obj;
+            var other = (SemVersion) obj!;
 
             return Major == other.Major &&
                    Minor == other.Minor &&
@@ -443,7 +443,7 @@ namespace Zapdate.Core.Domain.Entities
         /// <param name="left">The left value.</param>
         /// <param name="right">The right value.</param>
         /// <returns>If left is equal to right <c>true</c>, else <c>false</c>.</returns>
-        public static bool operator ==(SemVersion left, SemVersion right)
+        public static bool operator ==(SemVersion? left, SemVersion? right)
         {
             return Equals(left, right);
         }
@@ -454,7 +454,7 @@ namespace Zapdate.Core.Domain.Entities
         /// <param name="left">The left value.</param>
         /// <param name="right">The right value.</param>
         /// <returns>If left is not equal to right <c>true</c>, else <c>false</c>.</returns>
-        public static bool operator !=(SemVersion left, SemVersion right)
+        public static bool operator !=(SemVersion? left, SemVersion? right)
         {
             return !Equals(left, right);
         }

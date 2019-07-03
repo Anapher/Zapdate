@@ -8,7 +8,6 @@ namespace Zapdate.Core.Domain.Entities
         {
             Name = name;
             AsymmetricKey = asymmetricKey;
-            AsymmetricKeyId = asymmetricKey.Id;
         }
 
 #pragma warning disable CS8618 // Constructor for mapping
@@ -19,7 +18,5 @@ namespace Zapdate.Core.Domain.Entities
 
         public string Name { get; private set; }
         public AsymmetricKey AsymmetricKey { get; private set; }
-
-        public int AsymmetricKeyId { get; private set; }
     }
 }

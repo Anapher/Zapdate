@@ -2,7 +2,7 @@
 
 namespace Zapdate.Core.Domain.Entities
 {
-    public class AsymmetricKey : BaseEntity
+    public class AsymmetricKey
     {
         public AsymmetricKey(string publicKey, string? privateKey = null, bool isEncrypted = false, int projectId = 0)
         {
@@ -13,7 +13,7 @@ namespace Zapdate.Core.Domain.Entities
         }
 
 #pragma warning disable CS8618 // Constructor for mapping
-        public AsymmetricKey()
+        private AsymmetricKey()
         {
         }
 #pragma warning restore CS8618

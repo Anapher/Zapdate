@@ -7,7 +7,7 @@ namespace Zapdate.Core.Interfaces.Gateways.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        Task<T> GetById(int id);
+        Task<T?> GetById(int id);
         Task<List<T>> ListAll();
         Task<T> GetSingleBySpec(ISpecification<T> spec);
         Task<List<T>> List(ISpecification<T> spec);

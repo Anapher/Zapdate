@@ -1,36 +1,18 @@
-﻿using System;
+﻿#pragma warning disable CS8618 // Non-nullable field is uninitialized. Validators gurantee that.
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Zapdate.Core.Dto.UseCaseRequests;
 
 namespace Zapdate.Models.Request
 {
-    public class CreateUpdatePackageRequest
+    public class CreateUpdatePackageRequestDto
     {
         public string Version { get; set; }
         public string? Description { get; set; }
         public IDictionary<string, string>? CustomFields { get; set; }
 
         public IList<UpdateFileDto> Files { get; set; }
-        public IList<UpdateChangelogDto> Changelogs { get; set; }
-    }
-
-    public class UpdateChannelDto
-    {
-        public string Name { get; set; }
-        public DateTimeOffset? PublishDate { get; set; }
-    }
-
-    public class UpdateChangelogDto
-    {
-        public string Language { get; set; }
-        public string Content { get; set; }
-    }
-
-    public class UpdateFileDto
-    {
-        public string Path { get; set; }
-        public string Sha256Checksum { get; set; }
-        public string? Signature { get; set; }
+        public IList<UpdateChangelogDto>? Changelogs { get; set; }
+        public IList<UpdatePackageDistributionDto>? Distribution { get; set; }
     }
 }
