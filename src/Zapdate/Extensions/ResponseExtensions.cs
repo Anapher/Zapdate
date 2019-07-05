@@ -15,6 +15,8 @@ namespace Zapdate.Extensions
                 {
                     {ErrorType.ValidationError, HttpStatusCode.BadRequest},
                     {ErrorType.Authentication, HttpStatusCode.Unauthorized},
+                    {ErrorType.InvalidOperation, HttpStatusCode.BadRequest},
+                    {ErrorType.NotFound, HttpStatusCode.NotFound},
                 }.ToImmutableDictionary(x => x.Key.ToString(), x => (int)x.Value);
 
         public static ActionResult ToActionResult(this IUseCaseErrors status)

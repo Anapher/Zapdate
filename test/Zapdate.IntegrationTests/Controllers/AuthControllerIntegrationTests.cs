@@ -1,19 +1,20 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Zapdate.Models.Request;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Xunit;
+using Zapdate.IntegrationTests.Seeds;
+using Zapdate.Models.Request;
 
 namespace Zapdate.IntegrationTests.Controllers
 {
-    public class AuthControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class AuthControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory<AccountSeed>>
     {
         private readonly HttpClient _client;
 
-        public AuthControllerIntegrationTests(CustomWebApplicationFactory<Startup> factory)
+        public AuthControllerIntegrationTests(CustomWebApplicationFactory<AccountSeed> factory)
         {
             _client = factory.CreateClient();
         }
@@ -21,7 +22,7 @@ namespace Zapdate.IntegrationTests.Controllers
         [Fact]
         public async Task CanLoginWithValidCredentials()
         {
-            var httpResponse = await _client.PostAsync("/api/v1/auth/login", new StringContent(JsonConvert.SerializeObject(new LoginRequestDto{UserName = "mmacneil", Password = "Pa$$W0rd1" }), Encoding.UTF8, "application/json"));
+            var httpResponse = await _client.PostAsync("/api/v1/auth/login", new StringContent(JsonConvert.SerializeObject(new LoginRequestDto { UserName = "mmacneil", Password = "Pa$$W0rd1" }), Encoding.UTF8, "application/json"));
             httpResponse.EnsureSuccessStatusCode();
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             dynamic result = JObject.Parse(stringResponse);
@@ -58,5 +59,3 @@ namespace Zapdate.IntegrationTests.Controllers
         }
     }
 }
-
-

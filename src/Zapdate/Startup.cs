@@ -26,6 +26,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Zapdate
 {
@@ -135,7 +136,10 @@ namespace Zapdate
                         .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                         .ConfigureApiBehaviorOptions(options =>
                         {
-                            options.InvalidModelStateResponseFactory = context => new BadRequestObjectResult(new FieldValidationError(context.ModelState.ToDictionary(x => x.Key, x => x.Value.Errors.First().ErrorMessage)));
+                            options.InvalidModelStateResponseFactory = context =>
+                                new BadRequestObjectResult(new FieldValidationError(
+                                    context.ModelState.Where(x => x.Value.ValidationState == ModelValidationState.Invalid)
+                                    .ToDictionary(x => x.Key, x => x.Value.Errors.First().ErrorMessage)));
                         });
 
             services.AddMvc()

@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Zapdate.Core.Domain.Entities;
+using Zapdate.Infrastructure.Data.Config;
 
 namespace Zapdate.Infrastructure.Data
 {
@@ -17,6 +18,18 @@ namespace Zapdate.Infrastructure.Data
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<UpdatePackage> UpdatePackages { get; set; }
+        public DbSet<StoredFile> StoredFiles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new ProjectConfig());
+            builder.ApplyConfiguration(new UpdatePackageConfig());
+            builder.ApplyConfiguration(new UpdateChangelogConfig());
+            builder.ApplyConfiguration(new UpdatePackageDistributionConfig());
+            builder.ApplyConfiguration(new StoredFileConfig());
+        }
 
         public override int SaveChanges()
         {

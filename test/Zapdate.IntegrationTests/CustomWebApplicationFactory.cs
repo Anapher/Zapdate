@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Zapdate.IntegrationTests.Seeds;
 
 namespace Zapdate.IntegrationTests
 {
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<Startup>
+    public class CustomWebApplicationFactory<TSeed> : WebApplicationFactory<Startup> where TSeed : IDbSeed, new()
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -44,7 +45,7 @@ namespace Zapdate.IntegrationTests
                     var appDb = scopedServices.GetRequiredService<AppDbContext>();
                     var identityDb = scopedServices.GetRequiredService<AppIdentityDbContext>();
 
-                    var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
+                    var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TSeed>>>();
 
                     // Ensure the database is created.
                     appDb.Database.EnsureCreated();
@@ -53,8 +54,9 @@ namespace Zapdate.IntegrationTests
                     try
                     {
                         // Seed the database with test data.
-                        SeedData.PopulateTestData(identityDb);
-                        SeedData.PopulateTestData(appDb);
+                        var seed = new TSeed();
+                        seed.PopulateTestData(identityDb);
+                        seed.PopulateTestData(appDb);
                     }
                     catch (Exception ex)
                     {

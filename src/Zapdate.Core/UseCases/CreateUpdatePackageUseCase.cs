@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,9 +43,7 @@ namespace Zapdate.Core.UseCases
 
             var updatePackage = new UpdatePackage(message.Version);
             updatePackage.Description = message.Description;
-
-            foreach (var customField in message.CustomFields)
-                updatePackage.CustomFields.Add(customField);
+            updatePackage.CustomFields = message.CustomFields.ToImmutableDictionary();
 
             if (!CopyChangelogs(updatePackage, message.Changelogs))
                 return null; // error

@@ -1,35 +1,21 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Zapdate.Core.Dto.UseCaseRequests;
+using Zapdate.IntegrationTests.Seeds;
 using Zapdate.Models.Request;
 
 namespace Zapdate.IntegrationTests.Controllers
 {
-    public class ProjectControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class ProjectControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory<AccountSeed>>
     {
         private readonly HttpClient _client;
 
-        public ProjectControllerIntegrationTests(CustomWebApplicationFactory<Startup> factory)
+        public ProjectControllerIntegrationTests(CustomWebApplicationFactory<AccountSeed> factory)
         {
             _client = factory.CreateClient();
-        }
-
-        private async Task Auth()
-        {
-            var httpResponse = await _client.PostAsync("/api/v1/auth/login", new StringContent(JsonConvert.SerializeObject(new LoginRequestDto { UserName = "mmacneil", Password = "Pa$$W0rd1" }), Encoding.UTF8, "application/json"));
-            httpResponse.EnsureSuccessStatusCode();
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            dynamic result = JObject.Parse(stringResponse);
-            Assert.NotNull(result.accessToken);
-
-            string token = result.accessToken;
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         [Fact]
@@ -42,7 +28,7 @@ namespace Zapdate.IntegrationTests.Controllers
         [Fact]
         public async Task CanCreateProjectWithServerStorage()
         {
-            await Auth();
+            await TestUtils.Auth(_client);
 
             var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { ProjectName = "Hello World", RsaKeyStorage = KeyStorage.Server });
             response.EnsureSuccessStatusCode();
@@ -59,7 +45,7 @@ namespace Zapdate.IntegrationTests.Controllers
         [Fact]
         public async Task CanCreateProjectWithServerEncryptedStorage()
         {
-            await Auth();
+            await TestUtils.Auth(_client);
 
             var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { ProjectName = "Hello World", RsaKeyStorage = KeyStorage.ServerEncrypted, RsaKeyPassword = "testpw" });
             response.EnsureSuccessStatusCode();
@@ -76,7 +62,7 @@ namespace Zapdate.IntegrationTests.Controllers
         [Fact]
         public async Task CanCreateProjectWithLocallyStorage()
         {
-            await Auth();
+            await TestUtils.Auth(_client);
 
             var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { ProjectName = "Hello World", RsaKeyStorage = KeyStorage.Locally });
             response.EnsureSuccessStatusCode();

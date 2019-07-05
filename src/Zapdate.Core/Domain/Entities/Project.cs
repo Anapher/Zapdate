@@ -2,6 +2,7 @@
 
 namespace Zapdate.Core.Domain.Entities
 {
+    // aggregate root
     public class Project : BaseEntity
     {
         public Project(string name, AsymmetricKey asymmetricKey)

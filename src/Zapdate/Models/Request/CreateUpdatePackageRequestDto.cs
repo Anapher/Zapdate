@@ -11,8 +11,15 @@ namespace Zapdate.Models.Request
         public string? Description { get; set; }
         public IDictionary<string, string>? CustomFields { get; set; }
 
-        public IList<UpdateFileDto> Files { get; set; }
-        public IList<UpdateChangelogDto>? Changelogs { get; set; }
-        public IList<UpdatePackageDistributionDto>? Distribution { get; set; }
+        public IReadOnlyList<UpdateFileDto> Files { get; set; }
+        public IReadOnlyList<UpdateChangelogDto>? Changelogs { get; set; }
+        public IReadOnlyList<UpdatePackageDistributionDto>? Distribution { get; set; }
+    }
+
+    public class UpdateFileDto
+    {
+        public string Path { get; set; }
+        public string Hash { get; set; }
+        public string? Signature { get; set; }
     }
 }

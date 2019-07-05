@@ -3,6 +3,7 @@ using Zapdate.Core.Interfaces.Gateways.Repositories;
 using Zapdate.Core.Interfaces.Services;
 using Zapdate.Infrastructure.Auth;
 using Zapdate.Infrastructure.Cryptography;
+using Zapdate.Infrastructure.Data.Repositories;
 using Zapdate.Infrastructure.Identity.Repositories;
 using Zapdate.Infrastructure.Interfaces;
 
@@ -20,8 +21,10 @@ namespace Zapdate.Infrastructure
 
             builder.RegisterType<AsymmetricKeyFactory>().As<IAsymmetricKeyParametersFactory>().SingleInstance();
             builder.RegisterType<SymmetricEncryption>().As<ISymmetricEncryption>().SingleInstance();
+            builder.RegisterType<AsymmetricCryptoHandler>().As<IAsymmetricCryptoHandler>().SingleInstance();
 
             builder.RegisterAssemblyTypes(ThisAssembly).AsClosedTypesOf(typeof(IRepository<>)).AsImplementedInterfaces();
+            builder.RegisterType<StoredFileRepository>().As<IStoredFileRepository>();
         }
     }
 }

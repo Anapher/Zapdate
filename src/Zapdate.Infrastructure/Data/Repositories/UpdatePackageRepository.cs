@@ -9,7 +9,7 @@ namespace Zapdate.Infrastructure.Data.Repositories
 {
     public class UpdatePackageRepository : EfRepository<UpdatePackage>, IUpdatePackageRepository
     {
-        protected UpdatePackageRepository(AppDbContext appDbContext) : base(appDbContext)
+        public UpdatePackageRepository(AppDbContext appDbContext) : base(appDbContext)
         {
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace Zapdate.Core.Domain.Entities
 {
+    // aggregate root
     /// <summary>
     ///     A file stored on the server, independ of any update package (to prevent duplication)
     ///     The file is compressed

@@ -3,7 +3,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Zapdate.Core.Domain.Entities;
@@ -284,7 +283,9 @@ namespace Zapdate.Core.Tests.UseCases
             mockAsymCrypto.Setup(x => x.SignHash(It.IsAny<Hash>(), "PLAIN KEY")).Returns("FILE SIGNATURE");
 
             var mockUpdatePackagesRepo = new Mock<IUpdatePackageRepository>();
-            mockUpdatePackagesRepo.Setup(x => x.Add(It.IsAny<UpdatePackage>())).ReturnsAsync((UpdatePackage x) => x);
+            UpdatePackage savedUpdatePackage = null;
+            mockUpdatePackagesRepo.Setup(x => x.Add(It.IsAny<UpdatePackage>())).Callback<UpdatePackage>(x => savedUpdatePackage = x)
+                .ReturnsAsync((UpdatePackage x) => x);
 
             var useCase = new CreateUpdatePackageUseCase(mockFilesRepo.Object, mockProjectRepo.Object, mockAsymCrypto.Object, null, mockUpdatePackagesRepo.Object);
 
@@ -299,7 +300,7 @@ namespace Zapdate.Core.Tests.UseCases
             var changelogs = new List<UpdateChangelogDto>
             {
                 new UpdateChangelogDto("de-de", "Hallo Welt"),
-                new UpdateChangelogDto("en-use", "Hello World")
+                new UpdateChangelogDto("en-us", "Hello World")
             };
 
             var distDate = DateTimeOffset.UtcNow;
@@ -310,8 +311,21 @@ namespace Zapdate.Core.Tests.UseCases
             await useCase.Handle(message);
 
             Assert.False(useCase.HasError);
-            mockUpdatePackagesRepo.Verify(x => x.Add(null), Times.Once);
-            mockUpdatePackagesRepo.Verify(x => x.OrderUpdatePackages(It.IsAny<int>(), "1.0.0", null), Times.Once);
+            mockUpdatePackagesRepo.Verify(x => x.OrderUpdatePackages(It.IsAny<int>(), "2.0.0", null), Times.Once);
+
+            Assert.NotNull(savedUpdatePackage);
+
+            Assert.Equal(message.Description, savedUpdatePackage.Description);
+            Assert.Equal(message.Version, savedUpdatePackage.VersionInfo.SemVersion);
+            Assert.Equal(message.CustomFields, savedUpdatePackage.CustomFields);
+            Assert.Collection(savedUpdatePackage.Changelogs, x => Assert.Equal("de-de", x.Language), x => Assert.Equal("en-us", x.Language));
+            Assert.Collection(savedUpdatePackage.Distributions, x => 
+            {
+                Assert.Equal("test", x.Name);
+                Assert.True(x.IsPublished);
+                Assert.Equal(distDate, x.PublishDate);
+            });
+            Assert.Collection(savedUpdatePackage.Files, x => Assert.Equal("asd", x.Path), x => Assert.Equal("asd2", x.Path));
         }
     }
 }
