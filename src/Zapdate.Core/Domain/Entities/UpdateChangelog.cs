@@ -10,7 +10,7 @@
         }
 
 #pragma warning disable CS8618 // Constructor for mapping
-        public UpdateChangelog()
+        private UpdateChangelog()
         {
         }
 #pragma warning restore CS8618

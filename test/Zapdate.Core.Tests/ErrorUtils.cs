@@ -6,7 +6,7 @@ namespace Zapdate.Core.Tests
 {
     public static class ErrorUtils
     {
-        public static void AssertError(IUseCaseErrors errors, ErrorType? errorType = null, ErrorCode? code = null)
+        public static void AssertError(IBusinessErrors errors, ErrorType? errorType = null, ErrorCode? code = null)
         {
             Assert.True(errors.HasError);
 

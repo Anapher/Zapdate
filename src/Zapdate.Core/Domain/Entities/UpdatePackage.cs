@@ -10,10 +10,9 @@ namespace Zapdate.Core.Domain.Entities
     // aggregate root
     public class UpdatePackage : BaseEntity
     {
-        private readonly IList<UpdatePackageDistribution> _distributions;
-        private readonly IList<UpdateChangelog> _changelogs;
-        private readonly IList<UpdateFile> _files;
-
+        private HashSet<UpdatePackageDistribution> _distributions;
+        private HashSet<UpdateChangelog> _changelogs;
+        private HashSet<UpdateFile> _files;
 
 #pragma warning disable CS8618 // Constructor for mapping
         private UpdatePackage()
@@ -21,17 +20,18 @@ namespace Zapdate.Core.Domain.Entities
         }
 #pragma warning restore CS8618
 
-        public UpdatePackage(SemVersion version)
+        public UpdatePackage(SemVersion version, int projectId = 0)
         {
             VersionInfo = new VersionInfo(version);
+            OrderNumber = -1;
 
             CustomFields = ImmutableDictionary<string, string>.Empty;
 
-            _distributions = new List<UpdatePackageDistribution>();
-            _changelogs = new List<UpdateChangelog>();
-            _files = new List<UpdateFile>();
+            _distributions = new HashSet<UpdatePackageDistribution>();
+            _changelogs = new HashSet<UpdateChangelog>();
+            _files = new HashSet<UpdateFile>();
 
-            OrderNumber = -1;
+            ProjectId = projectId;
         }
 
         public int ProjectId { get; private set; }
@@ -42,9 +42,15 @@ namespace Zapdate.Core.Domain.Entities
 
         public bool IsListed => OrderNumber >= 0;
 
-        public IEnumerable<UpdateChangelog>? Changelogs => _changelogs;
+        public IEnumerable<UpdateChangelog> Changelogs => _changelogs;
         public IEnumerable<UpdatePackageDistribution>? Distributions => _distributions;
         public IEnumerable<UpdateFile> Files => _files;
+
+        public void UpdateVersion(SemVersion version)
+        {
+            VersionInfo = new VersionInfo(version);
+            OrderNumber = -1;
+        }
 
         public UpdatePackageDistribution AddDistribution(string name)
         {
@@ -57,7 +63,7 @@ namespace Zapdate.Core.Domain.Entities
             return channel;
         }
 
-        public void RemoveChannel(UpdatePackageDistribution channel)
+        public void RemoveDistribution(UpdatePackageDistribution channel)
         {
             _distributions.Remove(channel);
         }
@@ -89,6 +95,11 @@ namespace Zapdate.Core.Domain.Entities
                 throw new ArgumentException($"A file with path {file.Path} already exists.");
 
             _files.Add(file);
+        }
+
+        public void RemoveFile(UpdateFile file)
+        {
+            _files.Remove(file);
         }
     }
 }

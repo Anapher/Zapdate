@@ -1,6 +1,5 @@
 using Zapdate.Core.Interfaces.Gateways.Repositories;
 using Zapdate.Core.Shared;
-using Zapdate.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

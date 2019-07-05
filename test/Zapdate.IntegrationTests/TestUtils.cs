@@ -25,5 +25,8 @@ namespace Zapdate.IntegrationTests
             string token = result.accessToken;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+
+        public static StringContent AsJson(this object o)
+            => new StringContent(JsonConvert.SerializeObject(o), Encoding.UTF8, "application/json");
     }
 }

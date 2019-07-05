@@ -1,4 +1,6 @@
-﻿using Zapdate.Core.Domain.Entities;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using Zapdate.Core.Domain.Entities;
 using Zapdate.Infrastructure.Data;
 using Zapdate.Infrastructure.Identity;
 
@@ -20,6 +22,26 @@ namespace Zapdate.IntegrationTests.Seeds
 
             dbContext.Add(new StoredFile("13879d586271db46f545166cf67ef5aa585fe99b6121b7324467f9c751a8d93b", 1024, 827));
             dbContext.Add(new StoredFile("936a185caaa266bb9cbe981e9e05cb78cd732b0b3280eb944412bb6f8f8f07af", 2047, 1002));
+
+            var updatePackage1 = new UpdatePackage("1.5.0", 1)
+            {
+                OrderNumber = 1,
+                Description = "Initial Update",
+                CustomFields = new Dictionary<string, string> { { "restart", "true" } }.ToImmutableDictionary()
+            };
+            updatePackage1.AddFile(new UpdateFile("/test.txt", "936a185caaa266bb9cbe981e9e05cb78cd732b0b3280eb944412bb6f8f8f07af", "SIGNATURE"));
+            dbContext.Add(updatePackage1);
+
+            var updatePackage2 = new UpdatePackage("2.0.0", 1) { OrderNumber = 2 };
+            updatePackage2.AddChangelog("en-us", "Hello World");
+            updatePackage2.AddFile(new UpdateFile("/test.txt", "13879d586271db46f545166cf67ef5aa585fe99b6121b7324467f9c751a8d93b", "SIGNATURE"));
+            dbContext.Add(updatePackage2);
+
+            var updatePackage3 = new UpdatePackage("3.0.0", 1) { OrderNumber = 3 };
+            updatePackage3.AddChangelog("de-de", "Hallo Welt");
+            updatePackage3.AddFile(new UpdateFile("/test.txt", "936a185caaa266bb9cbe981e9e05cb78cd732b0b3280eb944412bb6f8f8f07af", "SIGNATURE"));
+            dbContext.Add(updatePackage3);
+
             dbContext.SaveChanges();
         }
     }

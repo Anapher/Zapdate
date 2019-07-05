@@ -28,6 +28,10 @@ namespace Zapdate.Infrastructure.Data.Config
 
                 a.HasIndex(x => x.Version).IsUnique();
             });
+
+            builder.Metadata.FindNavigation(nameof(UpdatePackage.Changelogs)).SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Metadata.FindNavigation(nameof(UpdatePackage.Files)).SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Metadata.FindNavigation(nameof(UpdatePackage.Distributions)).SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

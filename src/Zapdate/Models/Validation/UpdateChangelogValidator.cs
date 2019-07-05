@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using Zapdate.Core.Dto.UseCaseRequests;
+using Zapdate.Core.Dto.Universal;
 using Zapdate.Extensions;
 
 namespace Zapdate.Models.Validation
 {
-    public class UpdateChangelogValidator : AbstractValidator<UpdateChangelogDto>
+    public class UpdateChangelogValidator : AbstractValidator<UpdateChangelogInfo>
     {
         public UpdateChangelogValidator()
         {

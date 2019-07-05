@@ -2,10 +2,10 @@
 {
     public class UpdateFile
     {
-        public UpdateFile(string path, string fileHash, string signature)
+        public UpdateFile(string path, string hash, string signature)
         {
             Path = path;
-            FileHash = fileHash;
+            Hash = hash;
             Signature = signature;
         }
 
@@ -20,7 +20,7 @@
         public int UpdatePackageId { get; private set; }
 
         public string Path { get; private set; }
-        public string FileHash { get; private set; }
+        public string Hash { get; private set; }
         public string Signature { get; private set; }
     }
 }

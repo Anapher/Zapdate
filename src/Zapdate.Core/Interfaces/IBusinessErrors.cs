@@ -2,7 +2,7 @@ using Zapdate.Core.Dto;
 
 namespace Zapdate.Core.Interfaces
 {
-    public interface IUseCaseErrors
+    public interface IBusinessErrors
     {
         /// <summary>
         ///     The errors that occurred when executing the use case. If empty, the use case succeeded

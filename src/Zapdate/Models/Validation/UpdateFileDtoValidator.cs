@@ -1,7 +1,6 @@
-﻿using CodeElements.Core;
-using FluentValidation;
+﻿using FluentValidation;
 using Zapdate.Extensions;
-using Zapdate.Models.Request;
+using Zapdate.Models.Universal;
 
 namespace Zapdate.Models.Validation
 {

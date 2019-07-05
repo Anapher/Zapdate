@@ -22,7 +22,7 @@ namespace Zapdate.Core.Domain.Entities
 
         public string Version { get; private set; }
         public string? Prerelease { get; private set; }
-        public string? Build { get; private set; }
+        public string? Build { get; set; }
         public long BinaryVersion { get; private set; }
 
         public SemVersion SemVersion

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Zapdate.Core.Interfaces
 {
-    public interface IUseCaseRequestHandler<in TUseCaseRequest, TUseCaseResponse> : IUseCaseErrors where TUseCaseRequest : IUseCaseRequest<TUseCaseResponse> where TUseCaseResponse : class
+    public interface IUseCaseRequestHandler<in TUseCaseRequest, TUseCaseResponse> : IBusinessErrors where TUseCaseRequest : IUseCaseRequest<TUseCaseResponse> where TUseCaseResponse : class
     {
         /// <summary>
         ///     Handle the use case

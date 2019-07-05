@@ -2,13 +2,16 @@ namespace Zapdate.Core.Errors
 {
     public enum ErrorCode
     {
-        FieldValidation = 0,
+        // code 0 to 1000 are reserved for infrastructure
+
+        FieldValidation = 1000,
         UserNotFound,
         InvalidPassword,
         InvalidToken,
         InvalidKeyPassword,
         UpdatePackageWithVersionAlreadyExists,
         ProjectNotFound,
+        UpdatePackageNotFound,
 
         Identity_DefaultError = 1500,
         Identity_ConcurrencyFailure,

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Net;
+using FluentValidation.Results;
+using System.Linq;
 
 namespace Zapdate.Extensions
 {
@@ -19,7 +21,7 @@ namespace Zapdate.Extensions
                     {ErrorType.NotFound, HttpStatusCode.NotFound},
                 }.ToImmutableDictionary(x => x.Key.ToString(), x => (int)x.Value);
 
-        public static ActionResult ToActionResult(this IUseCaseErrors status)
+        public static ActionResult ToActionResult(this IBusinessErrors status)
         {
             if (!status.HasError)
                 return new OkResult();
@@ -39,6 +41,17 @@ namespace Zapdate.Extensions
             }
 
             return new ObjectResult(error) { StatusCode = httpCode };
+        }
+
+        public static ActionResult ToActionResult(this ValidationResult validationResult)
+        {
+            if (validationResult.IsValid)
+                return new OkResult();
+
+            var error = new Error(ErrorType.ValidationError.ToString(), "Validation of the object model failed",
+                (int)ErrorCode.FieldValidation, validationResult.Errors.ToDictionary(x => x.PropertyName, x => x.ErrorMessage));
+
+            return ToActionResult(error);
         }
 
         private static IReadOnlyDictionary<string, TValue> ConvertDictionaryKeysToCamelCase<TValue>(IReadOnlyDictionary<string, TValue> dictionary)
