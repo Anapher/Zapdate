@@ -1,7 +1,6 @@
 ﻿using CodeElements.Core;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Zapdate.Core.Domain.Actions;
@@ -45,20 +44,7 @@ namespace Zapdate.Core.UseCases
             UpdateChangelogs(updatePackage, message.UpdatePackage);
             UpdateDistributions(updatePackage, message.UpdatePackage);
 
-            var isVersionUpdated = false;
-            if (message.UpdatePackage.Version != updatePackage.VersionInfo.SemVersion)
-            {
-                if (message.UpdatePackage.Version.ToString(false) == updatePackage.VersionInfo.Version)
-                {
-                     // only build updated
-                    updatePackage.VersionInfo.Build = message.UpdatePackage.Version.Build;
-                }
-                else
-                {
-                    isVersionUpdated = true;
-                    updatePackage.UpdateVersion(message.UpdatePackage.Version);
-                }
-            }
+            var isVersionUpdated = UpdateVersion(updatePackage, message.UpdatePackage);
 
             await _updatePackageRepository.Update(updatePackage);
 
@@ -68,6 +54,25 @@ namespace Zapdate.Core.UseCases
             }
 
             return new PatchUpdatePackageResponse();
+        }
+
+        private bool UpdateVersion(UpdatePackage target, UpdatePackageInfo source)
+        {
+            if (source.Version != target.VersionInfo.SemVersion)
+            {
+                if (source.Version.ToString(false) == target.VersionInfo.Version)
+                {
+                    // only build updated
+                    target.VersionInfo.Build = source.Version.Build;
+                }
+                else
+                {
+                    target.UpdateVersion(source.Version);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void UpdateDescription(UpdatePackage target, UpdatePackageInfo source)
@@ -80,12 +85,12 @@ namespace Zapdate.Core.UseCases
             if (target.CustomFields.OrderBy(x => x.Key).SequenceEqual(source.CustomFields.OrderBy(x => x.Key)))
                 return;
 
-            target.CustomFields = source.CustomFields.ToImmutableDictionary();
+            target.CustomFields = source.CustomFields;
         }
 
         private void UpdateChangelogs(UpdatePackage target, UpdatePackageInfo source)
         {
-            PatchList(target.Changelogs!, source.Changelogs!, (x, y) => x.Language == y.Language,
+            PatchList(target.Changelogs, source.Changelogs, (x, y) => x.Language == y.Language,
                 x => target.RemoveChangelog(x.Language), x => target.AddChangelog(x.Language, x.Content),
                 (x, y) => x.Content = y.Content);
         }
@@ -101,7 +106,7 @@ namespace Zapdate.Core.UseCases
                 entity.IsEnforced = dto.IsEnforced;
             }
 
-            PatchList(target.Distributions!, source.Distributions!, (x, y) => x.Name == y.Name,
+            PatchList(target.Distributions, source.Distributions, (x, y) => x.Name == y.Name,
                 x => target.RemoveDistribution(x),
                 x =>
                 {

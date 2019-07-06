@@ -43,7 +43,7 @@ namespace Zapdate.Core.Domain.Entities
         public bool IsListed => OrderNumber >= 0;
 
         public IEnumerable<UpdateChangelog> Changelogs => _changelogs;
-        public IEnumerable<UpdatePackageDistribution>? Distributions => _distributions;
+        public IEnumerable<UpdatePackageDistribution> Distributions => _distributions;
         public IEnumerable<UpdateFile> Files => _files;
 
         public void UpdateVersion(SemVersion version)

@@ -1,28 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using Zapdate.Core.Domain;
 
 namespace Zapdate.Core.Dto.Universal
 {
     public class UpdatePackageInfo
     {
-        public UpdatePackageInfo(SemVersion version, string? description, IDictionary<string, string>? customFields,
-            IReadOnlyList<UpdateFileInfo> files, IReadOnlyList<UpdateChangelogInfo>? changelogs,
-            IReadOnlyList<UpdatePackageDistributionInfo>? distribution)
+        public UpdatePackageInfo(SemVersion version, string? description, IImmutableDictionary<string, string>? customFields,
+            IImmutableList<UpdateFileInfo> files, IImmutableList<UpdateChangelogInfo>? changelogs,
+            IImmutableList<UpdatePackageDistributionInfo>? distribution)
         {
             Version = version;
             Description = description;
-            CustomFields = customFields ?? new Dictionary<string, string>();
+            CustomFields = customFields ?? ImmutableDictionary<string, string>.Empty;
             Files = files;
-            Changelogs = changelogs;
-            Distributions = distribution;
+            Changelogs = changelogs ?? ImmutableList<UpdateChangelogInfo>.Empty;
+            Distributions = distribution ?? ImmutableList<UpdatePackageDistributionInfo>.Empty;
+        }
+
+        public UpdatePackageInfo(SemVersion version, string? description, IDictionary<string, string>? customFields,
+            IEnumerable<UpdateFileInfo> files, IEnumerable<UpdateChangelogInfo>? changelogs,
+            IEnumerable<UpdatePackageDistributionInfo>? distribution)
+            : this(version, description, customFields?.ToImmutableDictionary(), files.ToImmutableList(), changelogs?.ToImmutableList(),
+                  distribution?.ToImmutableList())
+        {
+
         }
 
         public SemVersion Version { get; }
         public string? Description { get; }
-        public IDictionary<string, string> CustomFields { get; }
+        public IImmutableDictionary<string, string> CustomFields { get; }
 
-        public IReadOnlyList<UpdateFileInfo> Files { get; set; }
-        public IReadOnlyList<UpdateChangelogInfo>? Changelogs { get; set; }
-        public IReadOnlyList<UpdatePackageDistributionInfo>? Distributions { get; set; }
+        public IImmutableList<UpdateFileInfo> Files { get; set; }
+        public IImmutableList<UpdateChangelogInfo> Changelogs { get; set; }
+        public IImmutableList<UpdatePackageDistributionInfo> Distributions { get; set; }
     }
 }

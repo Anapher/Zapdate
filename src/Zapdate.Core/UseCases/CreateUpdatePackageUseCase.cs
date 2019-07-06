@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +40,7 @@ namespace Zapdate.Core.UseCases
 
             var updatePackage = new UpdatePackage(package.Version, message.ProjectId);
             updatePackage.Description = package.Description;
-            updatePackage.CustomFields = package.CustomFields.ToImmutableDictionary();
+            updatePackage.CustomFields = package.CustomFields;
 
             if (!CopyChangelogs(updatePackage, package.Changelogs))
                 return null; // error
@@ -71,11 +70,8 @@ namespace Zapdate.Core.UseCases
             return new CreateUpdatePackageResponse(updatePackage.Id);
         }
 
-        private void CopyDistributions(UpdatePackage package, IReadOnlyList<UpdatePackageDistributionInfo>? distributions)
+        private void CopyDistributions(UpdatePackage package, IEnumerable<UpdatePackageDistributionInfo> distributions)
         {
-            if (distributions == null)
-                return;
-
             foreach (var distributionDto in distributions)
             {
                 var distribution = package.AddDistribution(distributionDto.Name);
@@ -84,11 +80,8 @@ namespace Zapdate.Core.UseCases
             }
         }
 
-        private bool CopyChangelogs(UpdatePackage package, IReadOnlyList<UpdateChangelogInfo>? changelogs)
+        private bool CopyChangelogs(UpdatePackage package, IEnumerable<UpdateChangelogInfo> changelogs)
         {
-            if (changelogs == null)
-                return true;
-
             foreach (var changelog in changelogs)
             {
                 if (package.Changelogs.Any(x => x.Language.Equals(changelog.Language, StringComparison.OrdinalIgnoreCase)))

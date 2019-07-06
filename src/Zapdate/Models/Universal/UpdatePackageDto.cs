@@ -11,8 +11,8 @@ namespace Zapdate.Models.Universal
         public string? Description { get; set; }
         public IDictionary<string, string>? CustomFields { get; set; }
 
-        public IReadOnlyList<UpdateFileDto> Files { get; set; }
-        public IReadOnlyList<UpdateChangelogInfo>? Changelogs { get; set; }
-        public IReadOnlyList<UpdatePackageDistributionInfo>? Distribution { get; set; }
+        public IList<UpdateFileDto> Files { get; set; }
+        public IList<UpdateChangelogInfo>? Changelogs { get; set; }
+        public IList<UpdatePackageDistributionInfo>? Distribution { get; set; }
     }
 }
