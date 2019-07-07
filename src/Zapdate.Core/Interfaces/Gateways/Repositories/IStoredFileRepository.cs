@@ -1,5 +1,5 @@
-﻿using CodeElements.Core;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Zapdate.Core.Domain;
 using Zapdate.Core.Domain.Entities;
 
 namespace Zapdate.Core.Interfaces.Gateways.Repositories

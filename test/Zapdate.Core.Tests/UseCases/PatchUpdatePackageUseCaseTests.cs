@@ -1,4 +1,4 @@
-﻿using CodeElements.Core;
+﻿using Zapdate.Core.Domain;
 using Moq;
 using System;
 using System.Collections.Generic;

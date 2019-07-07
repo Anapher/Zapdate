@@ -1,4 +1,4 @@
-﻿using CodeElements.Core;
+﻿using Zapdate.Core.Domain;
 using Xunit;
 using Zapdate.Infrastructure.Cryptography;
 

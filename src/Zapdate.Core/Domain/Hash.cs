@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace CodeElements.Core
+namespace Zapdate.Core.Domain
 {
     /// <summary>
     ///     Represents a hash value

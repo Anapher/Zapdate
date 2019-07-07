@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
-using CodeElements.Core;
+using Zapdate.Core.Domain;
 using Zapdate.Core.Interfaces.Services;
 
 namespace Zapdate.Infrastructure.Cryptography

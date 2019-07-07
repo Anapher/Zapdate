@@ -13,6 +13,5 @@ namespace Zapdate.Core.Errors
 
         public static ResourceNotFoundError UpdatePackageNotFound(int projectId, string version) =>
             new ResourceNotFoundError($"The update package {version} of project {projectId} was not found.", ErrorCode.UpdatePackageNotFound);
-
     }
 }

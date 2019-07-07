@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CodeElements.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;

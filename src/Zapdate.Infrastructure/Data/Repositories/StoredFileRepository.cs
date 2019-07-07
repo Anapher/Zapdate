@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using CodeElements.Core;
+﻿using System.Threading.Tasks;
+using Zapdate.Core.Domain;
 using Zapdate.Core.Domain.Entities;
 using Zapdate.Core.Interfaces.Gateways.Repositories;
 
