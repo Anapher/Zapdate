@@ -43,7 +43,7 @@ export function toString(error: IRequestErrorResponse): string {
    }
 
    if (!isRestError(response)) {
-      return `The server responded with status code ${status} and an unexpected body: ${response}`;
+      return `The server responded with status code ${status} and an unexpected body.`;
    }
 
    if (response.type === 'ValidationError') {

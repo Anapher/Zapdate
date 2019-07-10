@@ -1,13 +1,53 @@
-import { Button } from '@material-ui/core';
-import React from 'react';
+import { Button, Typography } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import CenteredContent from 'src/components/CenteredContent';
+import LoadingPlaceholder from 'src/components/LoadingPlaceholder';
 import to from 'src/utils/to';
+import { RootState } from 'zapdate';
+import * as actions from '../actions';
 import CreateProjectDialog from './CreateProjectDialog';
+import ProjectsView from './ProjectsView';
 
-export default function ProjectsOverview() {
+const mapStateToProps = (state: RootState) => ({
+   projects: state.projects.projects,
+   error: state.projects.projectsLoadingError,
+});
+
+const dispatchProps = {
+   loadProjects: actions.loadProjectsAsync.request,
+};
+
+type Props = typeof dispatchProps & ReturnType<typeof mapStateToProps>;
+function ProjectsOverview({ loadProjects, projects, error }: Props) {
+   useEffect(() => {
+      loadProjects();
+   }, []);
+
+   if (error !== null) {
+      return (
+         <CenteredContent>
+            <Typography style={{ maxWidth: 600, margin: 24, maxHeight: 400 }} color="error">
+               {error}
+            </Typography>
+            <Button onClick={loadProjects}>Retry</Button>
+         </CenteredContent>
+      );
+   }
+
+   if (projects === null) {
+      return <LoadingPlaceholder label="Loading projects..." />;
+   }
+
    return (
-      <div>
-         <Button {...to('/create-project')}>Create Project</Button>
+      <React.Fragment>
+         <ProjectsView projects={projects} />
          <CreateProjectDialog />
-      </div>
+      </React.Fragment>
    );
 }
+
+export default connect(
+   mapStateToProps,
+   dispatchProps,
+)(ProjectsOverview);

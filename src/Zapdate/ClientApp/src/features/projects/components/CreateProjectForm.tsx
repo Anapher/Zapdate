@@ -1,14 +1,18 @@
 import { Box, Grid, MenuItem, Typography } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-import { Field, Formik } from 'formik';
+import { Field, Formik, FormikActions } from 'formik';
 import { TextField } from 'formik-material-ui';
 import { CreateProjectRequest } from 'MyModels';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 import ResponsiveDialogContainer from 'src/components/ResponsiveDialogContent';
 import SelectField from 'src/components/SelectField';
 import useAsyncFunction from 'src/hooks/use-async-function';
+import { applyError } from 'src/utils/formik-helpers';
 import * as yup from 'yup';
 import * as actions from '../actions';
+import download from 'src/utils/memory-download';
+import { getSafeFilename } from 'src/utils/string-helper';
 
 const initialValues: CreateProjectRequest = {
    name: '',
@@ -28,20 +32,40 @@ const schema = yup.object().shape({
    }),
 });
 
-export default function CreateProjectForm() {
+function CreateProjectForm({ history }: RouteComponentProps) {
    const createProjectAction = useAsyncFunction(
       actions.createProjectAsync.request,
       actions.createProjectAsync.success,
       actions.createProjectAsync.failure,
    );
 
+   const submit = useCallback(
+      async (values: CreateProjectRequest, formikActions: FormikActions<CreateProjectRequest>) => {
+         const { setSubmitting } = formikActions;
+         try {
+            const result = await createProjectAction!(values);
+            if (result.asymmetricKey) {
+               const filename = getSafeFilename(values.name) + '-private_key.json';
+               download(filename, result.asymmetricKey);
+            }
+
+            history.push('/');
+         } catch (error) {
+            applyError(error, formikActions);
+         } finally {
+            setSubmitting(false);
+         }
+      },
+      [createProjectAction, history],
+   );
+
    return (
       <Formik<CreateProjectRequest>
          initialValues={initialValues}
          validationSchema={schema}
-         onSubmit={() => {}}
+         onSubmit={submit}
       >
-         {({ submitForm, values: { rsaKeyStorage }, isValid, isSubmitting }) => (
+         {({ submitForm, values: { rsaKeyStorage }, isValid, isSubmitting, status }) => (
             <ResponsiveDialogContainer
                affirmerText="Create"
                onAffirmer={submitForm}
@@ -105,18 +129,21 @@ export default function CreateProjectForm() {
                               {rsaKeyStorage === 'locally' && (
                                  <React.Fragment>
                                     After the project is created, the private key will be deleted on
-                                    the server and you get the chance to download and store it as a
-                                    file. Every time you create an update, you have to submit this
-                                    file. If you loose it, the update system is unusable.
+                                    the server and downloaded to your computer. Every time you
+                                    create an update, you have to submit this file. If you loose it,
+                                    the update system is unusable.
                                  </React.Fragment>
                               )}
                            </Typography>
                         </Box>
                      </Box>
                   </Grid>
+                  {status && <Typography color="error">{status}</Typography>}
                </Grid>
             </ResponsiveDialogContainer>
          )}
       </Formik>
    );
 }
+
+export default withRouter(CreateProjectForm);

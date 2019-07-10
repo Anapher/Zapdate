@@ -5,7 +5,7 @@ import CreateProjectForm from './CreateProjectForm';
 
 type Props = RouteComponentProps;
 
-export const createProjectRoute = '/create-project';
+export const createProjectRoute = '/projects/create';
 
 function CreateProjectDialog({ location, history }: Props) {
    const isOpen = location.pathname === createProjectRoute;

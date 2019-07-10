@@ -31,7 +31,7 @@ namespace Zapdate.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CreateProjectResponseDto>> CreateProject(CreateProjectRequestDto dto, [FromServices] ICreateProjectUseCase useCase)
         {
-            var result = await useCase.Handle(new CreateProjectRequest(dto.ProjectName, dto.RsaKeyStorage, dto.RsaKeyPassword));
+            var result = await useCase.Handle(new CreateProjectRequest(dto.Name, dto.RsaKeyStorage, dto.RsaKeyPassword));
             if (useCase.HasError)
             {
                 return useCase.ToActionResult();

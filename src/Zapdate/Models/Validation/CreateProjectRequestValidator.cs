@@ -8,9 +8,9 @@ namespace Zapdate.Models.Validation
     {
         public CreateProjectRequestValidator()
         {
-            RuleFor(x => x.ProjectName).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.RsaKeyStorage).IsInEnum();
-            RuleFor(x => x.ProjectName).MinimumLength(6).NotEmpty()
+            RuleFor(x => x.Name).MinimumLength(6).NotEmpty()
                 .When(x => x.RsaKeyStorage == KeyStorage.ServerEncrypted);
         }
     }

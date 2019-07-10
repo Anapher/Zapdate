@@ -21,7 +21,7 @@ namespace Zapdate.IntegrationTests.Controllers
         [Fact]
         public async Task CantCreateProjectUnauthenticated()
         {
-            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { ProjectName = "Hello World", RsaKeyStorage = KeyStorage.Server });
+            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { Name = "Hello World", RsaKeyStorage = KeyStorage.Server });
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -30,7 +30,7 @@ namespace Zapdate.IntegrationTests.Controllers
         {
             await TestUtils.Auth(_client);
 
-            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { ProjectName = "Hello World", RsaKeyStorage = KeyStorage.Server });
+            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { Name = "Hello World", RsaKeyStorage = KeyStorage.Server });
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -47,7 +47,7 @@ namespace Zapdate.IntegrationTests.Controllers
         {
             await TestUtils.Auth(_client);
 
-            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { ProjectName = "Hello World", RsaKeyStorage = KeyStorage.ServerEncrypted, RsaKeyPassword = "testpw" });
+            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { Name = "Hello World", RsaKeyStorage = KeyStorage.ServerEncrypted, RsaKeyPassword = "testpw" });
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -64,7 +64,7 @@ namespace Zapdate.IntegrationTests.Controllers
         {
             await TestUtils.Auth(_client);
 
-            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { ProjectName = "Hello World", RsaKeyStorage = KeyStorage.Locally });
+            var response = await _client.PostAsJsonAsync("/api/v1/projects", new CreateProjectRequestDto { Name = "Hello World", RsaKeyStorage = KeyStorage.Locally });
             response.EnsureSuccessStatusCode();
 
             var stringResponse = await response.Content.ReadAsStringAsync();

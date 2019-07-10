@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
+using System.IO.Compression;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Xunit;
 using Zapdate.Core.Domain;
@@ -53,6 +55,29 @@ namespace Zapdate.Infrastructure.Tests.Files
             Assert.Equal(_testFile1.Length, storedFile.Length);
             Assert.True(fs.FileExists($"{options.Directory}\\{_testFile1Hash}"));
             Assert.Empty(fs.Directory.GetFiles(options.TempDirectory));
+        }
+
+        [Fact]
+        public async Task TestReadFile()
+        {
+            var fs = new MockFileSystem();
+            var options = new ServerFilesOptions { Directory = "D:\\files", TempDirectory = "D:\\temp" };
+
+            var filesManager = new ServerFilesManager(fs, Options.Create(options), GetNullLogger());
+            var testFileStream = new MemoryStream(_testFile1);
+            await filesManager.AddFile(testFileStream);
+
+            // act
+            var file = filesManager.ReadFile(_testFile1Hash);
+
+            Hash hash;
+            using (var gzip = new GZipStream(file, CompressionMode.Decompress, false))
+            {
+                hash = new Hash(SHA256.Create().ComputeHash(gzip));
+            }
+
+            // assert
+            Assert.Equal(_testFile1Hash.ToString(), hash.ToString());
         }
 
         private ILogger<ServerFilesManager> GetNullLogger() =>

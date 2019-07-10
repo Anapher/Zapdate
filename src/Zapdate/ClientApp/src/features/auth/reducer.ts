@@ -1,7 +1,7 @@
-import { RootAction } from 'zapdate';
 import { AccessInfo } from 'MyModels';
 import { combineReducers } from 'redux';
 import { getType } from 'typesafe-actions';
+import { RootAction } from 'zapdate';
 import * as actions from './actions';
 
 export type AuthState = Readonly<{
