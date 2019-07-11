@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
+﻿using System.Globalization;
 
 namespace Zapdate.Core.Domain.Entities
 {
@@ -9,11 +6,13 @@ namespace Zapdate.Core.Domain.Entities
     {
         private string _systemLanguage;
 
-        public Machine(string hardwareId, string systemLanguage)
+        public Machine(string hardwareId, string systemLanguage, OperatingSystem operatingSystem)
         {
             Id = hardwareId;
-            SystemLanguage = systemLanguage;
 
+            var culture = CultureInfo.GetCultureInfo(systemLanguage);
+            _systemLanguage = culture.TwoLetterISOLanguageName;
+            OperatingSystem = operatingSystem;
         }
 
         public string Id { get; private set; }

@@ -10,8 +10,8 @@ import CreateProjectDialog from './CreateProjectDialog';
 import ProjectsView from './ProjectsView';
 
 const mapStateToProps = (state: RootState) => ({
-   projects: state.projects.projects,
-   error: state.projects.projectsLoadingError,
+   projects: state.projects.list,
+   error: state.projects.loadingError,
 });
 
 const dispatchProps = {
@@ -21,8 +21,10 @@ const dispatchProps = {
 type Props = typeof dispatchProps & ReturnType<typeof mapStateToProps>;
 function ProjectsOverview({ loadProjects, projects, error }: Props) {
    useEffect(() => {
-      loadProjects();
-   }, []);
+      if (projects === null) {
+         loadProjects();
+      }
+   }, [projects]);
 
    if (error !== null) {
       return (

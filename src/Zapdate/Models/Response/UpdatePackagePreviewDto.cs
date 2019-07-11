@@ -5,9 +5,16 @@ namespace Zapdate.Models.Response
 {
     public class UpdatePackagePreviewDto
     {
-        public string Version { get; set; }
-        public string? Description { get; set; }
-        public IList<UpdatePackageDistributionInfo> Distribution { get; set; }
+        public UpdatePackagePreviewDto(string version, string description, IList<UpdatePackageDistributionInfo> distribution)
+        {
+            Version = version;
+            Description = description;
+            Distribution = distribution;
+        }
+
+        public string Version { get; }
+        public string? Description { get; }
+        public IList<UpdatePackageDistributionInfo> Distribution { get; }
 
         public long UpdateSize { get; set; }
 

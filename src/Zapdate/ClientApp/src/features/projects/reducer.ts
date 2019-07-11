@@ -5,12 +5,12 @@ import { RootAction } from 'zapdate';
 import * as actions from './actions';
 
 export type ProjectsState = Readonly<{
-   projects: ProjectDto[] | null;
-   projectsLoadingError: string | null;
+   list: ProjectDto[] | null;
+   loadingError: string | null;
 }>;
 
 export default combineReducers<ProjectsState, RootAction>({
-   projects: (state = null, action) => {
+   list: (state = null, action) => {
       switch (action.type) {
          case getType(actions.loadProjectsAsync.success):
             return action.payload;
@@ -18,7 +18,7 @@ export default combineReducers<ProjectsState, RootAction>({
             return state;
       }
    },
-   projectsLoadingError: (state = null, action) => {
+   loadingError: (state = null, action) => {
       switch (action.type) {
          case getType(actions.loadProjectsAsync.failure):
             return action.payload.toString();

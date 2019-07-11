@@ -10,3 +10,8 @@ export async function load(): Promise<ProjectDto[]> {
    const response = await Axios.get<ProjectDto[]>('/api/v1/projects');
    return response.data;
 }
+
+export async function get(id: number): Promise<ProjectDto> {
+   const response = await Axios.get<ProjectDto>(`/api/v1/projects/${id}`);
+   return response.data;
+}

@@ -49,7 +49,7 @@ namespace Zapdate.Core.Domain.Entities
 
     public class GroupAttribute : Attribute
     {
-        public GroupAttribute(string groupName)
+        public GroupAttribute(string? groupName)
         {
         }
     }
