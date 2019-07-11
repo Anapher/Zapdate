@@ -13,6 +13,7 @@ declare module 'MyModels' {
    export interface ProjectDto {
       id: number;
       name: string;
+      distributionChannels: string[];
    }
 
    export type RsaKeyStorage = 'server' | 'serverEncrypted' | 'locally';

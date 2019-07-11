@@ -9,10 +9,10 @@ import ResponsiveDialogContainer from 'src/components/ResponsiveDialogContent';
 import SelectField from 'src/components/SelectField';
 import useAsyncFunction from 'src/hooks/use-async-function';
 import { applyError } from 'src/utils/formik-helpers';
-import * as yup from 'yup';
-import * as actions from '../actions';
 import download from 'src/utils/memory-download';
 import { getSafeFilename } from 'src/utils/string-helper';
+import * as yup from 'yup';
+import * as actions from '../actions';
 
 const initialValues: CreateProjectRequest = {
    name: '',

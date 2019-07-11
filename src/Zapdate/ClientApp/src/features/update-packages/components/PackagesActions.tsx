@@ -3,6 +3,8 @@ import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
+import to from 'src/utils/to';
+import CreatePackageDialog, { createPackageRoute } from './CreatePackageDialog';
 
 const useStyles = makeStyles({
    fab: {
@@ -18,7 +20,10 @@ const useStyles = makeStyles({
    },
 });
 
-export default function PackagesActions() {
+type Props = {
+   projectId: number;
+};
+export default function PackagesActions({ projectId }: Props) {
    const classes = useStyles();
 
    return (
@@ -33,9 +38,10 @@ export default function PackagesActions() {
                }
             />
          </Toolbar>
-         <Fab color="primary" className={classes.fab}>
+         <Fab color="primary" className={classes.fab} {...to(createPackageRoute(projectId))}>
             <AddIcon />
          </Fab>
+         <CreatePackageDialog projectId={projectId} />
       </Paper>
    );
 }

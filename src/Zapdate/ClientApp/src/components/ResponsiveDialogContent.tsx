@@ -14,6 +14,7 @@ import { WithMobileDialog } from '@material-ui/core/withMobileDialog';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useContext } from 'react';
 import { DialogContext, ReponsiveDialogContext } from './ResponsiveDialog';
+import classnames from 'classnames';
 
 interface UserProps {
    onAffirmer: () => void;
@@ -21,22 +22,28 @@ interface UserProps {
    children: React.ReactNode;
    isAffirmerDisabled?: boolean;
    isCancelDisabled?: boolean;
+   disableMargin?: boolean;
 }
 
 interface DialogProps extends UserProps, ReponsiveDialogContext {}
 
-const useStyles = makeStyles({
-   appBar: {},
+const useStyles = makeStyles(theme => ({
    flex: {
       flex: 1,
    },
    mobileContent: {
-      margin: 16,
-      height: '100%',
       overflowY: 'auto',
       overflowX: 'hidden',
+      height: '100%',
    },
-});
+   mobileContentMargin: {
+      margin: 16,
+   },
+   mobileDialogRoot: {
+      height: '100%',
+   },
+   toolbarPlaceholder: { ...theme.mixins.toolbar },
+}));
 
 function NormalDialog({
    title,
@@ -46,11 +53,12 @@ function NormalDialog({
    affirmerText,
    isCancelDisabled,
    isAffirmerDisabled,
+   disableMargin,
 }: DialogProps) {
    return (
       <React.Fragment>
          <DialogTitle>{title}</DialogTitle>
-         <DialogContent>{children}</DialogContent>
+         {disableMargin ? children : <DialogContent>{children}</DialogContent>}
          <DialogActions>
             <Button onClick={onClose} color="primary" disabled={isCancelDisabled}>
                Cancel
@@ -70,12 +78,13 @@ function FullscreenDialog({
    onAffirmer,
    affirmerText,
    isAffirmerDisabled,
+   disableMargin,
 }: DialogProps) {
    const classes = useStyles();
 
    return (
-      <div style={{ height: '100%' }}>
-         <AppBar position="sticky" className={classes.appBar}>
+      <div className={classes.mobileDialogRoot}>
+         <AppBar position="absolute">
             <Toolbar>
                <IconButton color="inherit" onClick={onClose} aria-label="Close">
                   <CloseIcon />
@@ -88,7 +97,14 @@ function FullscreenDialog({
                </Button>
             </Toolbar>
          </AppBar>
-         <div className={classes.mobileContent}>{children}</div>
+         <div
+            className={classnames(classes.mobileContent, {
+               [classes.mobileContentMargin]: !disableMargin,
+            })}
+         >
+            <div className={classes.toolbarPlaceholder} />
+            {children}
+         </div>
       </div>
    );
 }

@@ -1,4 +1,5 @@
-﻿using Zapdate.Core.Shared;
+﻿using System.Collections.Immutable;
+using Zapdate.Core.Shared;
 
 namespace Zapdate.Core.Domain.Entities
 {
@@ -9,6 +10,7 @@ namespace Zapdate.Core.Domain.Entities
         {
             Name = name;
             AsymmetricKey = asymmetricKey;
+            DistributionChannels = ImmutableList<string>.Empty;
         }
 
 #pragma warning disable CS8618 // Constructor for mapping
@@ -19,5 +21,6 @@ namespace Zapdate.Core.Domain.Entities
 
         public string Name { get; private set; }
         public AsymmetricKey AsymmetricKey { get; private set; }
+        public IImmutableList<string> DistributionChannels { get; set; }
     }
 }

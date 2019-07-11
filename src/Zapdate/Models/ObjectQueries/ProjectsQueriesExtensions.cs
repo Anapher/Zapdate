@@ -8,7 +8,7 @@ namespace Zapdate.Models.ObjectQueries
     {
         public static IQueryable<ProjectDto> MapProjectsToDto(this IQueryable<Project> projects)
         {
-            return projects.Select(x => new ProjectDto(x.Id, x.Name));
+            return projects.Select(x => new ProjectDto(x.Id, x.Name, x.DistributionChannels));
         }
     }
 }

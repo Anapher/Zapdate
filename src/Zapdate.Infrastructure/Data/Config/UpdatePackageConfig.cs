@@ -15,16 +15,18 @@ namespace Zapdate.Infrastructure.Data.Config
             builder.Property(x => x.CustomFields).HasConversion(x => JsonConvert.SerializeObject(x),
                 x => JsonConvert.DeserializeObject<IImmutableDictionary<string, string>>(x));
 
+            builder.Property(x => x.OrderNumber).IsRequired();
+
             builder.OwnsOne(x => x.VersionInfo, a =>
             {
                 a.Property(p => p.BinaryVersion)
-                    .HasColumnName("VersionBinary");
+                    .HasColumnName("VersionBinary").IsRequired();
                 a.Property(p => p.Build)
                     .HasColumnName("VersionBuild");
                 a.Property(p => p.Prerelease)
                    .HasColumnName("VersionPrerelease");
                 a.Property(p => p.Version)
-                   .HasColumnName("Version");
+                   .HasColumnName("Version").IsRequired();
 
                 a.HasIndex(x => x.Version).IsUnique();
             });

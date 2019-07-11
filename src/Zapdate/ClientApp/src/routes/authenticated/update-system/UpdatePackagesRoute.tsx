@@ -43,13 +43,17 @@ function UpdatePackagesRoute({ loadPackages, projectId, loaded }: Props) {
       }
    }, [projectId, loadPackages, loaded]);
 
+   if (projectId === null) {
+      return null;
+   }
+
    return (
       <div className={classes.root}>
          <div className={classes.packagesColumn}>
             <Box flex={1}>
                <PackagesList />
             </Box>
-            <PackagesActions />
+            <PackagesActions projectId={projectId} />
          </div>
       </div>
    );

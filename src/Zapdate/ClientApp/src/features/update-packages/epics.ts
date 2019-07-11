@@ -3,10 +3,10 @@ import { from, of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import toErrorResult from 'src/utils/error-result';
 import { isActionOf } from 'typesafe-actions';
-import { ZapdateEpic } from 'zapdate';
+import { RootEpic } from 'zapdate';
 import * as actions from './actions';
 
-export const loadPackagesEpic: ZapdateEpic = (action$, _, { api }) =>
+export const loadPackagesEpic: RootEpic = (action$, _, { api }) =>
    action$.pipe(
       filter(isActionOf(actions.loadUpdatePackages.request)),
       switchMap(({ payload }) =>

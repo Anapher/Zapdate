@@ -6,5 +6,5 @@ declare module 'zapdate' {
    export type RootAction = ActionType<typeof import('./root-action').default>;
 
    import { Epic } from 'redux-observable';
-   export type ZapdateEpic = Epic<RootAction, RootAction, RootState, Services>;
+   export type RootEpic = Epic<RootAction, RootAction, RootState, Services>;
 }

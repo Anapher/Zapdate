@@ -3,10 +3,10 @@ import { defer, from, iif, of } from 'rxjs';
 import { catchError, filter, ignoreElements, map, switchMap } from 'rxjs/operators';
 import toErrorResult from 'src/utils/error-result';
 import { isActionOf } from 'typesafe-actions';
-import { ZapdateEpic } from 'zapdate';
+import { RootEpic } from 'zapdate';
 import * as actions from './actions';
 
-export const loadProjectsEpic: ZapdateEpic = (action$, state$, { api }) =>
+export const loadProjectsEpic: RootEpic = (action$, state$, { api }) =>
    action$.pipe(
       filter(isActionOf(actions.selectProjectAsync.request)),
       switchMap(action =>
