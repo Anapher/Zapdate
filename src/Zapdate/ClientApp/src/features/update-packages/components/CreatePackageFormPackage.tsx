@@ -1,25 +1,23 @@
 import {
    Box,
+   Button,
+   ButtonGroup,
+   Checkbox,
    Grid,
    Link,
-   Typography,
    Table,
    TableBody,
    TableCell,
    TableHead,
    TableRow,
-   ButtonGroup,
-   Button,
-   Switch,
-   Checkbox,
    Theme,
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/styles';
 import { Field, FieldArray, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
 import React from 'react';
 import { UpdatePackageDto } from 'UpdateSystemModels';
-import ToggleButtonField from 'src/components/ToggleButtonField';
-import { useTheme } from '@material-ui/styles';
+import { DateTimePicker } from '@material-ui/pickers';
 
 type Props = {
    formikProps: FormikProps<UpdatePackageDto>;
@@ -108,7 +106,17 @@ export default function CreatePackageFormPackage({
                                        >
                                           Now
                                        </Button>
-                                       <Button>Schedule</Button>
+                                       <Button>
+                                          Schedule
+                                          {x.publishDate && x.publishDate !== 'now' && (
+                                             <DateTimePicker
+                                                value={x.publishDate}
+                                                disablePast
+                                                ampm={false}
+                                                onChange={() => {}}
+                                             />
+                                          )}
+                                       </Button>
                                     </ButtonGroup>
                                  </TableCell>
                                  <TableCell>

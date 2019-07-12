@@ -1,4 +1,6 @@
+import LuxonUtils from '@date-io/luxon';
 import { createMuiTheme, CssBaseline } from '@material-ui/core';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -24,9 +26,11 @@ function App({ isAuthenticated }: Props) {
    return (
       <ThemeProvider theme={theme}>
          <CssBaseline />
-         <BrowserRouter>
-            {isAuthenticated ? <AuthenticatedRoutes /> : <AnonymousRoutes />}
-         </BrowserRouter>
+         <MuiPickersUtilsProvider utils={LuxonUtils}>
+            <BrowserRouter>
+               {isAuthenticated ? <AuthenticatedRoutes /> : <AnonymousRoutes />}
+            </BrowserRouter>
+         </MuiPickersUtilsProvider>
       </ThemeProvider>
    );
 }
