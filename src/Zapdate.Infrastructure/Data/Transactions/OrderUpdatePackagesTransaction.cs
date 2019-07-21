@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Zapdate.Core.Domain;
 using Zapdate.Core.Domain.Entities;
@@ -79,6 +76,4 @@ namespace Zapdate.Infrastructure.Data.Transactions
                     .OrderByDescending(x => x.OrderNumber).Select(x => (int?)x.OrderNumber).FirstOrDefaultAsync() ?? -1;
         }
     }
-
-
 }

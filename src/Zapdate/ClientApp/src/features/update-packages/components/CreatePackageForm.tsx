@@ -4,11 +4,17 @@ import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import semver from 'semver';
 import ResponsiveDialogContent from 'src/components/ResponsiveDialogContent';
-import { UpdatePackageDto } from 'UpdateSystemModels';
+import {
+   UpdatePackageDto,
+   UpdateFileDto,
+   UpdateChangelogInfo,
+   UpdatePackageDistributionInfo,
+} from 'UpdateSystemModels';
 import * as yup from 'yup';
 import CreatePackageFormPackage from './CreatePackageFormPackage';
 import { RootState } from 'zapdate';
 import { connect } from 'react-redux';
+import CreatePackageFormFields from './CreatePackageFormFields';
 
 const useStyles = makeStyles({
    root: {
@@ -54,7 +60,11 @@ function CreatePackageForm({ distributionChannels }: Props) {
          validationSchema={schema}
       >
          {formikProps => (
-            <ResponsiveDialogContent affirmerText="Create" onAffirmer={() => {}} disableMargin>
+            <ResponsiveDialogContent
+               affirmerText="Create"
+               onAffirmer={formikProps.submitForm}
+               disableMargin
+            >
                <div className={classes.root}>
                   <Tabs
                      value={selectedTab}
@@ -68,6 +78,7 @@ function CreatePackageForm({ distributionChannels }: Props) {
                   </Tabs>
                   <SwipeableViews index={selectedTab}>
                      <CreatePackageFormPackage formikProps={formikProps} />
+                     <CreatePackageFormFields formikProps={formikProps} />
                   </SwipeableViews>
                </div>
             </ResponsiveDialogContent>

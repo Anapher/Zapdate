@@ -12,7 +12,7 @@ using Zapdate.Core.Dto.UseCaseRequests;
 using Zapdate.Core.Errors;
 using Zapdate.Core.Interfaces.Gateways.Repositories;
 using Zapdate.Core.Interfaces.UseCases;
-using Zapdate.Core.Specifications;
+using Zapdate.Core.Specifications.UpdatePackage;
 using Zapdate.Extensions;
 using Zapdate.Infrastructure.Data;
 using Zapdate.Models.Errors;
@@ -88,7 +88,9 @@ namespace Zapdate.Controllers
             [FromServices] IMapper mapper)
         {
             // find update package
-            var updatePackage = await repo.GetSingleBySpec(new FullUpdatePackageVersionSpec(version, projectId));
+            var updatePackage = await repo.GetFirstOrDefaultBySpecs(new ProjectSpec(projectId), new VersionSpec(version),
+                new IncludeAllSpec());
+
             if (updatePackage == null)
             {
                 return ResourceNotFoundError.UpdatePackageNotFound(projectId, version).ToActionResult();

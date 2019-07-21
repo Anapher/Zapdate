@@ -25,7 +25,7 @@ namespace Zapdate.Core.Domain.Entities
         public bool IsEnforced { get; set; }
 
         public bool IsPublished => PublishDate != null;
-        public bool IsDistributing => !IsRolledBack && DateTimeOffset.UtcNow > PublishDate;
+        public bool IsDistributing => !IsRolledBack && DateTimeOffset.UtcNow >= PublishDate;
 
         public void Publish(DateTimeOffset? publishOn = null)
         {

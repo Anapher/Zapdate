@@ -13,6 +13,7 @@ using Zapdate.Core.Interfaces;
 using Zapdate.Core.Interfaces.Gateways.Repositories;
 using Zapdate.Core.Interfaces.UseCases;
 using Zapdate.Core.Specifications;
+using Zapdate.Core.Specifications.UpdatePackage;
 
 namespace Zapdate.Core.UseCases
 {
@@ -57,7 +58,8 @@ namespace Zapdate.Core.UseCases
             }
             catch (Exception)
             {
-                if (await _updatePackageRepository.GetSingleBySpec(new UpdatePackageVersionSpec(updatePackage.VersionInfo.SemVersion, project.Id)) != null)
+                if (await _updatePackageRepository.GetFirstOrDefaultBySpecs(new ProjectSpec(project.Id),
+                    new VersionSpec(updatePackage.VersionInfo.SemVersion)) != null)
                 {
                     SetError(new UpdatePackageAlreadyExistsError());
                     return null;

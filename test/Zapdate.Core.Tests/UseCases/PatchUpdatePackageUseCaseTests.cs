@@ -23,7 +23,7 @@ namespace Zapdate.Core.Tests.UseCases
         public async Task Handle_GivenInvalidUpdatePackage_ShouldFail()
         {
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync((UpdatePackage) null);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync((UpdatePackage) null);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, null);
             var updatePackageInfo = new UpdatePackageInfo("1.0.0", "", null, new List<UpdateFileInfo>(), null, null);
@@ -39,7 +39,7 @@ namespace Zapdate.Core.Tests.UseCases
         public async Task Handle_GivenInvalidFiles_ShouldFail()
         {
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(new UpdatePackage("1.0.0"));
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(new UpdatePackage("1.0.0"));
 
             var mockAddFiles = new Mock<IAddUpdatePackageFilesAction>();
             mockAddFiles.Setup(x => x.AddFiles(It.IsAny<UpdatePackage>(), It.IsAny<IEnumerable<UpdateFileInfo>>(), It.IsAny<string>()))
@@ -64,7 +64,7 @@ namespace Zapdate.Core.Tests.UseCases
             var updatePackage = new UpdatePackage("1.0.0");
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var updatePackageInfo = new UpdatePackageInfo("1.0.0", "Test Description", new Dictionary<string, string> { { "shutdown", "true" } },
@@ -98,7 +98,7 @@ namespace Zapdate.Core.Tests.UseCases
             var updatePackage = new UpdatePackage("1.0.0");
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var updatePackageInfo = new UpdatePackageInfo("2.0.0", null, null,
@@ -120,7 +120,7 @@ namespace Zapdate.Core.Tests.UseCases
             var updatePackage = new UpdatePackage("1.0.0-alpha");
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var updatePackageInfo = new UpdatePackageInfo("1.0.0-alpha+FFFFFF", null, null,
@@ -144,7 +144,7 @@ namespace Zapdate.Core.Tests.UseCases
             var updatePackage = new UpdatePackage("1.0.0") { CustomFields = customFieldsValue };
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var updatePackageInfo = new UpdatePackageInfo("1.0.0", null, customFields, new List<UpdateFileInfo>(), null, null);
@@ -168,7 +168,7 @@ namespace Zapdate.Core.Tests.UseCases
             var changelog = updatePackage.Changelogs.First();
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var newChangelogs = new[] { new UpdateChangelogInfo("de-de", "Hallo Welt"), new UpdateChangelogInfo("en-us", "Hello World") }.ToList();
@@ -202,7 +202,7 @@ namespace Zapdate.Core.Tests.UseCases
             var distribution = updatePackage.Distributions.First();
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var publishDate = DateTimeOffset.UtcNow.AddHours(-1);
@@ -231,7 +231,7 @@ namespace Zapdate.Core.Tests.UseCases
             distribution.Publish();
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var publishDate = DateTimeOffset.UtcNow.AddHours(-1);
@@ -261,7 +261,7 @@ namespace Zapdate.Core.Tests.UseCases
             distribution.Publish();
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var distributions = new List<UpdatePackageDistributionInfo> { new UpdatePackageDistributionInfo("enduser", null) };
@@ -290,7 +290,7 @@ namespace Zapdate.Core.Tests.UseCases
             distribution.Rollback();
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var publishDate = DateTimeOffset.UtcNow.AddHours(-1);
@@ -317,7 +317,7 @@ namespace Zapdate.Core.Tests.UseCases
             updatePackage.AddFile(new UpdateFile("wrong_path.txt", "ff", "NICE SIGNATURE"));
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var useCase = new PatchUpdatePackageUseCase(mockRepo.Object, GetSuccessfulAddFilesAction());
             var files = new[] { new UpdateFileInfo("right_path.txt", Hash.Parse("FF")) };
@@ -342,7 +342,7 @@ namespace Zapdate.Core.Tests.UseCases
             updatePackage.AddFile(new UpdateFile("wrong_path.txt", "ff", "NICE SIGNATURE"));
 
             var mockRepo = new Mock<IUpdatePackageRepository>();
-            mockRepo.Setup(x => x.GetSingleBySpec(It.IsAny<ISpecification<UpdatePackage>>())).ReturnsAsync(updatePackage);
+            mockRepo.Setup(x => x.GetFirstOrDefaultBySpecs(It.IsAny<ISpecification<UpdatePackage>[]>())).ReturnsAsync(updatePackage);
 
             var mockAddFiles = new Mock<IAddUpdatePackageFilesAction>();
             mockAddFiles.Setup(x => x.AddFiles(It.IsAny<UpdatePackage>(), It.IsAny<IEnumerable<UpdateFileInfo>>(), It.IsAny<string>()))

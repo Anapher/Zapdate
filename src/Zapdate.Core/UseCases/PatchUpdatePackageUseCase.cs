@@ -13,6 +13,7 @@ using Zapdate.Core.Interfaces;
 using Zapdate.Core.Interfaces.Gateways.Repositories;
 using Zapdate.Core.Interfaces.UseCases;
 using Zapdate.Core.Specifications;
+using Zapdate.Core.Specifications.UpdatePackage;
 
 namespace Zapdate.Core.UseCases
 {
@@ -29,7 +30,9 @@ namespace Zapdate.Core.UseCases
 
         public async Task<PatchUpdatePackageResponse?> Handle(PatchUpdatePackageRequest message)
         {
-            var updatePackage = await _updatePackageRepository.GetSingleBySpec(new FullUpdatePackageVersionSpec(message.CurrentVersion, message.ProjectId));
+            var updatePackage = await _updatePackageRepository.GetFirstOrDefaultBySpecs(
+                new ProjectSpec(message.ProjectId), new VersionSpec(message.CurrentVersion),
+                new IncludeAllSpec());
             if (updatePackage == null)
             {
                 return ReturnError(ResourceNotFoundError.UpdatePackageNotFound(message.ProjectId, message.CurrentVersion.ToString(false)));

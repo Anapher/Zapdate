@@ -12,12 +12,13 @@ import {
    TableRow,
    Theme,
 } from '@material-ui/core';
+import { ButtonProps } from '@material-ui/core/Button';
+import { DateTimePicker } from '@material-ui/pickers';
 import { useTheme } from '@material-ui/styles';
 import { Field, FieldArray, FormikProps } from 'formik';
 import { TextField } from 'formik-material-ui';
-import React from 'react';
+import React, { useState } from 'react';
 import { UpdatePackageDto } from 'UpdateSystemModels';
-import { DateTimePicker } from '@material-ui/pickers';
 
 type Props = {
    formikProps: FormikProps<UpdatePackageDto>;
@@ -26,6 +27,7 @@ export default function CreatePackageFormPackage({
    formikProps: { values, setFieldValue },
 }: Props) {
    const theme = useTheme<Theme>();
+   const [now] = useState<string>(Date.now().toString()); // todo: use luxon
 
    return (
       <Box m={2}>
@@ -56,7 +58,7 @@ export default function CreatePackageFormPackage({
                   helperText="An optional description for display purposes"
                />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ overflowX: 'auto' }}>
                <FieldArray
                   name="distribution"
                   render={() => (
@@ -74,13 +76,8 @@ export default function CreatePackageFormPackage({
                                  <TableCell>{x.name}</TableCell>
                                  <TableCell>
                                     <ButtonGroup variant="contained" color="primary" size="small">
-                                       <Button
-                                          style={{
-                                             backgroundColor:
-                                                x.publishDate === undefined
-                                                   ? theme.palette.primary.dark
-                                                   : undefined,
-                                          }}
+                                       <ToggleButton
+                                          isChecked={x.publishDate === undefined}
                                           onClick={() =>
                                              setFieldValue(
                                                 `distribution[${index}].publishDate`,
@@ -89,26 +86,31 @@ export default function CreatePackageFormPackage({
                                           }
                                        >
                                           Later
-                                       </Button>
-                                       <Button
-                                          style={{
-                                             backgroundColor:
-                                                x.publishDate === 'now'
-                                                   ? theme.palette.primary.dark
-                                                   : undefined,
-                                          }}
+                                       </ToggleButton>
+                                       <ToggleButton
+                                          isChecked={x.publishDate === now}
                                           onClick={() =>
                                              setFieldValue(
                                                 `distribution[${index}].publishDate`,
-                                                'now',
+                                                now,
                                              )
                                           }
                                        >
                                           Now
-                                       </Button>
-                                       <Button>
+                                       </ToggleButton>
+                                       <ToggleButton
+                                          isChecked={
+                                             x.publishDate !== undefined && x.publishDate !== now
+                                          }
+                                          onClick={() =>
+                                             setFieldValue(
+                                                `distribution[${index}].publishDate`,
+                                                Date.now().toString(),
+                                             )
+                                          }
+                                       >
                                           Schedule
-                                          {x.publishDate && x.publishDate !== 'now' && (
+                                          {x.publishDate && x.publishDate !== now && (
                                              <DateTimePicker
                                                 value={x.publishDate}
                                                 disablePast
@@ -116,7 +118,7 @@ export default function CreatePackageFormPackage({
                                                 onChange={() => {}}
                                              />
                                           )}
-                                       </Button>
+                                       </ToggleButton>
                                     </ButtonGroup>
                                  </TableCell>
                                  <TableCell>
@@ -134,5 +136,18 @@ export default function CreatePackageFormPackage({
             </Grid>
          </Grid>
       </Box>
+   );
+}
+
+function ToggleButton({ isChecked, ...props }: { isChecked: boolean } & ButtonProps) {
+   const theme = useTheme<Theme>();
+
+   return (
+      <Button
+         {...props}
+         style={{
+            backgroundColor: isChecked ? theme.palette.primary.dark : undefined,
+         }}
+      />
    );
 }
