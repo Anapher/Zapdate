@@ -1,13 +1,12 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate", "src\Zapdate\Zapdate.csproj", "{FD7EE4DC-7D2F-42DC-8339-BEDDD0B003AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Server", "src\Zapdate.Server\Zapdate.Server.csproj", "{FD7EE4DC-7D2F-42DC-8339-BEDDD0B003AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Core", "src\Zapdate.Core\Zapdate.Core.csproj", "{77D28346-47BE-4FD8-83BF-29826586336A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Server.Core", "src\Zapdate.Server.Core\Zapdate.Server.Core.csproj", "{77D28346-47BE-4FD8-83BF-29826586336A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Infrastructure", "src\Zapdate.Infrastructure\Zapdate.Infrastructure.csproj", "{D5EF31AB-8438-4343-ABB3-FB7724A31A59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Server.Infrastructure", "src\Zapdate.Server.Infrastructure\Zapdate.Server.Infrastructure.csproj", "{D5EF31AB-8438-4343-ABB3-FB7724A31A59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2E737D0E-82E8-4BE8-AFF6-0F19DC1CA857}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,13 +16,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6F9069E4-DBB5-4485-B1DA-356B72489EA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Core.Tests", "test\Zapdate.Core.Tests\Zapdate.Core.Tests.csproj", "{38B967D3-D5AC-42EE-80EE-0F5CBBB253AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Server.Core.Tests", "test\Zapdate.Server.Core.Tests\Zapdate.Server.Core.Tests.csproj", "{38B967D3-D5AC-42EE-80EE-0F5CBBB253AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Infrastructure.Tests", "test\Zapdate.Infrastructure.Tests\Zapdate.Infrastructure.Tests.csproj", "{5303091A-1535-4FB3-AFA9-186F18B149D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Server.Infrastructure.Tests", "test\Zapdate.Server.Infrastructure.Tests\Zapdate.Server.Infrastructure.Tests.csproj", "{5303091A-1535-4FB3-AFA9-186F18B149D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.IntegrationTests", "test\Zapdate.IntegrationTests\Zapdate.IntegrationTests.csproj", "{974B1103-BAD0-4D44-B78B-F5128D4642EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zapdate.Server.IntegrationTests", "test\Zapdate.Server.IntegrationTests\Zapdate.Server.IntegrationTests.csproj", "{974B1103-BAD0-4D44-B78B-F5128D4642EE}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Zapdate.Core", "src\Zapdate.Core\Zapdate.Core.shproj", "{A3E25258-AD31-422C-A663-38CD997C8B3A}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Zapdate.Core\Zapdate.Core.projitems*{a3e25258-ad31-422c-a663-38cd997c8b3a}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a3e25258-ad31-422c-a663-38cd997c8b3a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Zapdate.Core</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Files\IFileInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Files\IFileLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hash.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SemVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateEngine\FileOperationType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateEngine\IFileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateEngine\Operations\CopyFileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateEngine\Operations\DeleteFileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateEngine\Operations\DownloadFileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateEngine\Operations\MoveFileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UpdateEngine\Operations\UpdateFileOperation.cs" />
+  </ItemGroup>
+</Project>

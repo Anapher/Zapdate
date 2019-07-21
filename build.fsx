@@ -25,7 +25,7 @@ Target.create "Cleanup" (fun _ ->
 )
 
 Target.create "Build" (fun _ ->
-   srcDir </> "Zapdate" |> DotNet.publish (fun opts -> {opts with OutputPath = Some buildDir
+   srcDir </> "Zapdate.Server" |> DotNet.publish (fun opts -> {opts with OutputPath = Some buildDir
                                                                         Configuration = DotNet.BuildConfiguration.Release})
 )
 
