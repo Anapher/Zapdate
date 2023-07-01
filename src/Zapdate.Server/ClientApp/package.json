@@ -40,7 +40,7 @@
     "redux-react-hook": "^3.3.2",
     "reselect": "^4.0.0",
     "rxjs": "^6.5.2",
-    "semver": "^6.2.0",
+    "semver": "^7.5.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
